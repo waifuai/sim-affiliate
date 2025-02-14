@@ -2,10 +2,10 @@ import unittest
 from unittest.mock import patch
 import io
 import sys
-from affiliate.src.main import main
+from main import main
 
 class TestMain(unittest.TestCase):
-    @patch('affiliate.src.main.run_simulation')
+    @patch('main.run_simulation')
     def test_main(self, mock_run_simulation):
         # Mock the return value of run_simulation
         mock_run_simulation.return_value = (

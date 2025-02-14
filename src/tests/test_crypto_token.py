@@ -1,8 +1,8 @@
 import unittest
 import numpy as np
 from unittest.mock import MagicMock
-from affiliate.src.crypto_token import Token
-from affiliate.src.bonding_curves import linear_bonding_curve
+from crypto_token import Token
+from bonding_curves import linear_bonding_curve
 
 class TestToken(unittest.TestCase):
     def setUp(self):

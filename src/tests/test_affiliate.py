@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
-from affiliate.src.affiliate import Affiliate
-from affiliate.src.constants import INITIAL_COMMISSION_RATE, DYNAMIC_ADJUSTMENT_RATE
+from affiliate import Affiliate
+from constants import INITIAL_COMMISSION_RATE, DYNAMIC_ADJUSTMENT_RATE
 
 class TestAffiliate(unittest.TestCase):
     def setUp(self):

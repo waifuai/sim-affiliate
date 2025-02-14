@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from affiliate.src.simulation import run_simulation, token_simulation_step, affiliate_simulation_step
-from affiliate.src.config import NUM_SIMULATION_STEPS, NUM_TOKENS, NUM_AFFILIATES, INITIAL_SUPPLY, INITIAL_PRICE, INITIAL_COMMISSION_RATE
+from simulation import run_simulation, token_simulation_step, affiliate_simulation_step
+from config import NUM_SIMULATION_STEPS, NUM_TOKENS, NUM_AFFILIATES, INITIAL_SUPPLY, INITIAL_PRICE, INITIAL_COMMISSION_RATE
 import numpy as np
 
 class TestSimulation(unittest.TestCase):
-    @patch('affiliate.src.simulation.token_simulation_step')
-    @patch('affiliate.src.simulation.affiliate_simulation_step')
+    @patch('simulation.token_simulation_step')
+    @patch('simulation.affiliate_simulation_step')
     def test_run_simulation(self, mock_affiliate_simulation_step, mock_token_simulation_step):
         params = {
             'num_simulation_steps': 2,

@@ -1,7 +1,7 @@
 import unittest
 import argparse
 from unittest.mock import patch
-from affiliate.src.config import parse_arguments, get_config_from_args
+from config import parse_arguments, get_config_from_args
 
 class TestConfig(unittest.TestCase):
     @patch('argparse.ArgumentParser.parse_args')
@@ -22,7 +22,7 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(args.initial_price, 1.5)
         self.assertEqual(args.initial_commission_rate, 0.15)
 
-    @patch('affiliate.src.config.parse_arguments')
+    @patch('config.parse_arguments')
     def test_get_config_from_args(self, mock_parse_arguments):
         mock_parse_arguments.return_value = argparse.Namespace(
             num_simulation_steps=200,

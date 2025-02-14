@@ -3,11 +3,11 @@ import logging
 import numpy as np
 from typing import Dict, Any, Tuple, List
 
-from affiliate.src.config import NUM_SIMULATION_STEPS, NUM_TOKENS, NUM_AFFILIATES, INITIAL_SUPPLY, INITIAL_PRICE, INITIAL_COMMISSION_RATE, BONDING_CURVE_PARAM_CHANGE_INTERVAL
-from affiliate.src.config import bonding_curve_change_intervals
-from affiliate.src.bonding_curves import bonding_curve_functions
-from affiliate.src.crypto_token import Token
-from affiliate.src.affiliate import Affiliate
+from config import NUM_SIMULATION_STEPS, NUM_TOKENS, NUM_AFFILIATES, INITIAL_SUPPLY, INITIAL_PRICE, INITIAL_COMMISSION_RATE, BONDING_CURVE_PARAM_CHANGE_INTERVAL
+from config import bonding_curve_change_intervals
+from bonding_curves import bonding_curve_functions
+from crypto_token import Token
+from affiliate import Affiliate
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"

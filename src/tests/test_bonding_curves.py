@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from affiliate.src.bonding_curves import (
+from bonding_curves import (
     linear_bonding_curve,
     exponential_bonding_curve,
     sigmoid_bonding_curve,
