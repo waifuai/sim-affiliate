@@ -1,3 +1,24 @@
+"""
+Unit tests for configuration management functionality.
+
+This module contains unit tests for the configuration system, focusing on
+command-line argument parsing and configuration dictionary generation.
+It ensures that simulation parameters are correctly processed and validated.
+
+Test Coverage:
+- Command-line argument parsing with various parameter combinations
+- Configuration dictionary generation from parsed arguments
+- Integration with argparse for robust CLI handling
+- Parameter validation and type checking
+- Mocked testing for isolated functionality testing
+
+Testing Approach:
+- Mocked argparse to test argument parsing in isolation
+- Comprehensive parameter validation
+- Edge case testing for different input scenarios
+- Verification of configuration dictionary structure and content
+"""
+
 import unittest
 import argparse
 from unittest.mock import patch

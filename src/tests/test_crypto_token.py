@@ -1,3 +1,26 @@
+"""
+Unit tests for the Token class and cryptocurrency functionality.
+
+This module contains comprehensive unit tests for the Token class, covering
+token initialization, price calculations, buy/sell operations, bonding curve
+management, and parameter adjustments.
+
+Test Coverage:
+- Token initialization with validation and error handling
+- Buy/sell operations with fee calculations and token burns
+- Price calculation accuracy using different bonding curves
+- Bonding curve switching and parameter modification
+- Fee and burn rate calculations
+- Edge cases including insufficient balances and boundary conditions
+
+Testing Approach:
+- NumPy-compatible assertions for floating-point precision
+- Mock objects for isolating specific functionality
+- Comprehensive testing of transaction mechanics
+- Validation of supply and price state changes
+- Integration testing with bonding curve functions
+"""
+
 import unittest
 import numpy as np
 from unittest.mock import MagicMock

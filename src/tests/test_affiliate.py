@@ -1,3 +1,24 @@
+"""
+Unit tests for the Affiliate class.
+
+This module contains comprehensive unit tests for the Affiliate class, covering
+all major functionality including initialization, commission calculations,
+dynamic commission adjustments, referral tracking, and whale affiliate behavior.
+
+Test Coverage:
+- Affiliate initialization with validation
+- Commission calculation accuracy
+- Dynamic commission rate adjustments (increase/decrease)
+- Referral tracking and earnings calculation
+- Whale affiliate initialization and investment capacity
+- Edge cases and boundary conditions
+
+Testing Framework:
+- Uses Python's built-in unittest framework
+- NumPy-compatible assertions for floating-point comparisons
+- Comprehensive coverage of public methods and properties
+"""
+
 import unittest
 import numpy as np
 from affiliate import Affiliate

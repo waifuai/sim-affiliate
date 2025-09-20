@@ -1,3 +1,17 @@
+"""
+Main entry point for the token economy simulation.
+
+This module serves as the primary entry point for running the token economy simulation.
+It executes the simulation, processes the results, and displays a comprehensive summary
+of token performance and affiliate earnings.
+
+Key Features:
+- Runs the complete simulation using configured parameters
+- Generates summary statistics for all tokens and affiliates
+- Displays final prices, supplies, and bonding curves for tokens
+- Shows affiliate earnings, commission rates, and final balances
+"""
+
 from .simulation import run_simulation
 from .config import NUM_TOKENS
 import pandas as pd

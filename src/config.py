@@ -1,3 +1,22 @@
+"""
+Configuration management for token economy simulation.
+
+This module handles command-line argument parsing and configuration management for
+the token economy simulation. It provides a centralized way to configure simulation
+parameters and makes the simulation easily customizable through command-line options.
+
+Key Features:
+- Command-line argument parsing with sensible defaults
+- Configuration dictionary generation for easy parameter passing
+- Integration with constants module for consistent parameter values
+- Support for both programmatic and CLI-based configuration
+
+Command Line Options:
+- Simulation steps, token count, affiliate count
+- Initial supply, price, and commission rate settings
+- Easy extension for additional parameters
+"""
+
 import argparse
 import logging
 from constants import NUM_SIMULATION_STEPS, NUM_TOKENS, NUM_AFFILIATES, INITIAL_SUPPLY, INITIAL_PRICE, INITIAL_COMMISSION_RATE, INITIAL_TOKEN_INVESTMENT, bonding_curve_change_intervals, BONDING_CURVE_PARAM_CHANGE_INTERVAL

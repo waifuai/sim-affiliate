@@ -1,3 +1,25 @@
+"""
+Unit tests for the main entry point functionality.
+
+This module contains unit tests for the main.py module, focusing on the
+primary entry point that runs the simulation and generates summary reports.
+It tests the complete simulation workflow from execution to output generation.
+
+Test Coverage:
+- Main function execution and simulation orchestration
+- Summary report generation for tokens and affiliates
+- Output formatting and content validation
+- Integration with the simulation engine
+- End-to-end workflow testing
+
+Testing Approach:
+- Mocked simulation engine for controlled testing
+- Output capture and validation
+- Comprehensive assertion of generated reports
+- Integration testing of the complete workflow
+- Verification of summary statistics and formatting
+"""
+
 import unittest
 from unittest.mock import patch
 import io

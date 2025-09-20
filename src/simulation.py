@@ -1,3 +1,31 @@
+"""
+Core simulation engine for token economy with affiliate dynamics.
+
+This module contains the main simulation logic that orchestrates the entire token
+economy simulation. It manages the step-by-step evolution of tokens and affiliates,
+handling trading, price calculations, and dynamic parameter adjustments.
+
+Key Features:
+- Complete simulation lifecycle management
+- Token and affiliate step-by-step processing
+- Trading mechanics with buy/sell logic
+- Dynamic bonding curve adjustments
+- Comprehensive history tracking and analytics
+- Performance monitoring and timing
+
+Simulation Components:
+- Token simulation: Price updates, supply changes, bonding curve evolution
+- Affiliate simulation: Trading behavior, commission adjustments, portfolio management
+- History tracking: Price, supply, earnings, and parameter histories
+- Performance monitoring: Execution time and step-by-step logging
+
+Integration Points:
+- Token class for price calculations and supply management
+- Affiliate class for trading behavior and commission tracking
+- Bonding curves for mathematical price determination
+- Configuration system for parameter management
+"""
+
 import time
 import logging
 import numpy as np

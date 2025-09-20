@@ -1,3 +1,24 @@
+"""
+Bonding curve implementations for token price calculations.
+
+This module provides various mathematical bonding curve functions that determine how
+token prices change based on supply. These curves are essential for simulating different
+token economy behaviors and price dynamics.
+
+Available Bonding Curves:
+- Linear: Price increases linearly with supply (constant slope)
+- Exponential: Price grows exponentially with supply (rapid price increase)
+- Sigmoid: Price follows an S-curve with upper bound (logistic growth)
+- Root: Price increases with square root of supply (diminishing returns)
+- Inverse: Price decreases as supply increases (deflationary)
+
+Key Features:
+- NumPy-compatible implementations for efficient vectorized calculations
+- Parameter validation and error handling for robustness
+- Configurable parameters for each curve type
+- Collection of all curves for easy integration with token systems
+"""
+
 import numpy as np
 from typing import Callable, List
 import logging
@@ -6,7 +27,6 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 
 # --- Bonding Curve Functions (Numpy Compatible) ---
 
-# --- Bonding Curve Functions (Numpy Compatible) ---
 def linear_bonding_curve(supply: np.ndarray, m: float=0.001, b: float=1) -> np.ndarray:
     """
     Calculates the price using a linear bonding curve.

@@ -1,3 +1,25 @@
+"""
+Unit tests for bonding curve mathematical functions.
+
+This module contains comprehensive unit tests for all bonding curve implementations,
+verifying the mathematical accuracy and correctness of price calculations for each
+curve type under various supply conditions.
+
+Test Coverage:
+- Linear bonding curve: Constant slope price increase
+- Exponential bonding curve: Rapid price growth with supply
+- Sigmoid bonding curve: S-shaped price curve with upper bound
+- Root bonding curve: Square root relationship with supply
+- Inverse bonding curve: Decreasing price with increasing supply
+- Edge cases: Zero supply, large values, boundary conditions
+
+Testing Approach:
+- Mathematical accuracy verification using NumPy assertions
+- Multiple test cases for each curve type
+- Edge case testing for robustness
+- Input validation and error handling verification
+"""
+
 import unittest
 import numpy as np
 from bonding_curves import (

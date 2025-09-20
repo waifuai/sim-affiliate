@@ -1,3 +1,19 @@
+"""
+Affiliate management system for token economy simulation.
+
+This module defines the Affiliate class which represents participants in the affiliate
+marketing system within the token economy. Affiliates can earn commissions on trades,
+manage their token portfolios, and dynamically adjust their commission rates based
+on trading performance.
+
+Key Features:
+- Dynamic commission rate adjustment based on investment performance
+- Support for both regular and whale affiliates with different investment capacities
+- Portfolio tracking and earnings history management
+- Automated commission calculation and referral tracking
+"""
+
+
 import numpy as np
 from .constants import (
     COMMISSION_DYNAMICS_STEP, DYNAMIC_ADJUSTMENT_RATE, MOVING_AVERAGE_WINDOW,

@@ -1,3 +1,24 @@
+"""
+Cryptocurrency token implementation with dynamic bonding curves.
+
+This module defines the Token class which represents individual cryptocurrency tokens
+in the token economy simulation. Each token has its own supply, price, and bonding
+curve function that determines how the price changes based on supply/demand dynamics.
+
+Key Features:
+- Dynamic bonding curve pricing with multiple curve types
+- Buy/sell functionality with transaction fees and token burns
+- Support for bonding curve switching and parameter adjustment
+- Comprehensive logging of price changes and supply updates
+- Integration with various mathematical bonding curve functions
+
+Token Mechanics:
+- Price calculation based on current supply and bonding curve
+- Transaction fees deducted on all trades (0.25%)
+- Token burns on all trades (0.02%)
+- Support for multiple bonding curve types (linear, exponential, sigmoid, root, inverse)
+"""
+
 import numpy as np
 import logging
 from .bonding_curves import bonding_curve_functions

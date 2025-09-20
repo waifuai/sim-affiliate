@@ -1,3 +1,24 @@
+"""
+Global constants and configuration parameters for token economy simulation.
+
+This module contains all the fundamental constants and parameters used throughout
+the token economy simulation. These values control simulation behavior, token
+dynamics, affiliate mechanics, and bonding curve characteristics.
+
+Parameter Categories:
+- Simulation parameters: Steps, token counts, affiliate counts
+- Token parameters: Initial supply, pricing, fees, and burn rates
+- Affiliate parameters: Commission rates, investment thresholds, whale settings
+- Trading parameters: Buy/sell probabilities and limits
+- Bonding curve parameters: Change intervals and pricing factors
+
+Key Features:
+- Centralized configuration management
+- Dynamic bonding curve interval generation
+- Parameter validation and documentation
+- Easy adjustment of simulation behavior
+"""
+
 # Simulation parameters
 NUM_SIMULATION_STEPS: int = 100
 NUM_TOKENS: int = 5

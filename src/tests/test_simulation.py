@@ -1,3 +1,26 @@
+"""
+Unit tests for the core simulation engine.
+
+This module contains comprehensive unit tests for the simulation.py module,
+covering the main simulation orchestration, step-by-step processing, and
+integration between tokens and affiliates.
+
+Test Coverage:
+- Complete simulation run workflow
+- Token simulation step processing
+- Affiliate simulation step processing
+- History tracking and data collection
+- Integration with token and affiliate classes
+- Parameter passing and configuration handling
+
+Testing Approach:
+- Mocked components for isolated testing of simulation logic
+- Comprehensive testing of simulation state management
+- History data structure validation
+- Step-by-step processing verification
+- Integration testing of complex workflows
+"""
+
 import unittest
 from unittest.mock import patch, MagicMock
 from simulation import run_simulation, token_simulation_step, affiliate_simulation_step
