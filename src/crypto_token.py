@@ -1,6 +1,7 @@
 import numpy as np
 import logging
-from bonding_curves import bonding_curve_functions
+from .bonding_curves import bonding_curve_functions
+from .constants import TRANSACTION_FEE_RATE, BURN_RATE
 from typing import Callable, Dict, Any
 
 logging.basicConfig(
@@ -20,13 +21,21 @@ class Token:
             initial_supply (float): The initial supply of the token.
             initial_price (float): The initial price of the token.
             bonding_curve_func (Callable[[np.ndarray], np.ndarray]): The bonding curve function for the token.
+
+        Raises:
+            ValueError: If initial_supply or initial_price are negative.
         """
+        if initial_supply < 0:
+            raise ValueError("Initial supply cannot be negative")
+        if initial_price < 0:
+            raise ValueError("Initial price cannot be negative")
+
         self.name: str = name
         self.supply: np.ndarray = np.array(initial_supply, dtype=np.float32)
         self.price: np.ndarray = np.array(initial_price, dtype=np.float32)
         self.bonding_curve_func: Callable[[np.ndarray], np.ndarray] = bonding_curve_func
-        self.transaction_fee_rate: float = 0.0025  # 0.25% transaction fee
-        self.burn_rate: float = 0.0002 # 0.02% burn rate
+        self.transaction_fee_rate: float = TRANSACTION_FEE_RATE
+        self.burn_rate: float = BURN_RATE
         self.curve_metadata: Dict[str, Any] = {"function_name": bonding_curve_func.__name__}
 
     def calculate_price(self) -> np.ndarray:
@@ -42,27 +51,30 @@ class Token:
 
         Returns:
             float: The new price of the token.
+
+        Raises:
+            ValueError: If amount is not positive.
         """
         if amount <= 0:
             raise ValueError("Buy amount must be positive")
-        
+
         fee = amount * self.transaction_fee_rate
         burn = amount * self.burn_rate
         amount_after_fee = amount - fee - burn
-        
+
         if amount_after_fee <= 0:
             logging.warning(f"Buy amount too small after fees and burn for {self.name}. No tokens purchased.")
-            return 0
+            return float(self.price)
 
-        old_price = self.price
+        old_price = float(self.price)
         self.supply += np.array(amount_after_fee, dtype=np.float32)
         self.price = self.calculate_price()
-        price_change = self.price - old_price
+        price_change = float(self.price) - old_price
 
         logging.info(
-            f"Token {self.name} price updated from {old_price:.2f} to {self.price:.2f} (+{price_change:.2f}). Supply increased to {self.supply:.2f}"
+            f"Token {self.name} price updated from {old_price:.2f} to {float(self.price):.2f} (+{price_change:.2f}). Supply increased to {float(self.supply):.2f}"
         )
-        return self.price
+        return float(self.price)
 
     def sell(self, amount: float) -> float:
         """
@@ -73,27 +85,32 @@ class Token:
 
         Returns:
             float: The new price of the token.
+
+        Raises:
+            ValueError: If amount is not positive or exceeds supply.
         """
-        if amount <= 0 or amount > self.supply:
-            raise ValueError("Sell amount must be positive and not exceed supply")
+        if amount <= 0:
+            raise ValueError("Sell amount must be positive")
+        if amount > float(self.supply):
+            raise ValueError(f"Sell amount ({amount}) cannot exceed current supply ({float(self.supply)})")
 
         fee = amount * self.transaction_fee_rate
         burn = amount * self.burn_rate
         amount_after_fee = amount - fee - burn
-        
+
         if amount_after_fee <= 0:
             logging.warning(f"Sell amount too small after fees and burn for {self.name}. No tokens sold.")
-            return 0
+            return float(self.price)
 
-        old_price = self.price
+        old_price = float(self.price)
         self.supply -= np.array(amount_after_fee, dtype=np.float32)
         self.price = self.calculate_price()
-        price_change = old_price - self.price
+        price_change = old_price - float(self.price)
 
         logging.info(
-            f"Token {self.name} price updated from {old_price:.2f} to {self.price:.2f} (-{price_change:.2f}). Supply decreased to {self.supply:.2f}"
+            f"Token {self.name} price updated from {old_price:.2f} to {float(self.price):.2f} (-{price_change:.2f}). Supply decreased to {float(self.supply):.2f}"
         )
-        return self.price
+        return float(self.price)
     
     def change_bonding_curve(self) -> None:
         """Changes the bonding curve function of the token."""

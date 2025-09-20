@@ -3,11 +3,15 @@ import logging
 import numpy as np
 from typing import Dict, Any, Tuple, List
 
-from config import NUM_SIMULATION_STEPS, NUM_TOKENS, NUM_AFFILIATES, INITIAL_SUPPLY, INITIAL_PRICE, INITIAL_COMMISSION_RATE, BONDING_CURVE_PARAM_CHANGE_INTERVAL
-from config import bonding_curve_change_intervals
-from bonding_curves import bonding_curve_functions
-from crypto_token import Token
-from affiliate import Affiliate
+from .constants import (
+    NUM_SIMULATION_STEPS, NUM_TOKENS, NUM_AFFILIATES, INITIAL_SUPPLY, INITIAL_PRICE,
+    INITIAL_COMMISSION_RATE, BONDING_CURVE_PARAM_CHANGE_INTERVAL, bonding_curve_change_intervals,
+    MOVING_AVERAGE_WINDOW, BUY_PROBABILITY, SELL_PROBABILITY, MAX_SELL_PERCENTAGE,
+    INITIAL_TOKEN_INVESTMENT
+)
+from .bonding_curves import bonding_curve_functions
+from .crypto_token import Token
+from .affiliate import Affiliate
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -16,7 +20,7 @@ logging.basicConfig(
 def _process_affiliate_trades(affiliate: Affiliate, tokens: List[Token], step: int, params: Dict[str, Any]) -> Affiliate:
     """Processes the trades for a single affiliate."""
     num_transactions = np.random.randint(1, 3) if not affiliate.is_whale else np.random.randint(0, 2)
-    initial_token_investment = params.get('initial_token_investment', 10)
+    initial_token_investment = params.get('initial_token_investment', INITIAL_TOKEN_INVESTMENT)
 
     for _ in range(num_transactions):
         random_token_index = np.random.randint(len(tokens))
@@ -34,7 +38,7 @@ def _process_affiliate_trades(affiliate: Affiliate, tokens: List[Token], step: i
             tokens_to_trade = 0
             continue
 
-        if np.random.rand() < 0.6:  # Slightly adjusted probability for buy
+        if np.random.rand() < BUY_PROBABILITY:
             cost = tokens_to_trade * token_price
             if affiliate.base_currency_balance >= cost:
                 token = _buy_token(token, affiliate, tokens_to_trade, cost)
@@ -45,17 +49,17 @@ def _process_affiliate_trades(affiliate: Affiliate, tokens: List[Token], step: i
             affiliate = _sell_token(token, affiliate, tokens_to_trade)
 
         affiliate.recent_investment.append(invest_amount)
-        if len(affiliate.recent_investment) > 50:  # MOVING_AVERAGE_WINDOW:
+        if len(affiliate.recent_investment) > MOVING_AVERAGE_WINDOW:
             affiliate.recent_investment.pop(0)
     return affiliate
 
 def _buy_token(token: Token, affiliate: Affiliate, tokens_to_trade: float, cost: float) -> Token:
     """Executes a buy order."""
-    token.buy(np.array(tokens_to_trade, dtype=np.float32))
-    affiliate.base_currency_balance -= np.array(cost, dtype=np.float32)
+    token.buy(tokens_to_trade)
+    affiliate.base_currency_balance -= cost
     if token.name not in affiliate.wallet:
-        affiliate.wallet[token.name] = np.array(0.0, dtype=np.float32)
-    affiliate.wallet[token.name] += np.array(tokens_to_trade, dtype=np.float32)
+        affiliate.wallet[token.name] = 0.0
+    affiliate.wallet[token.name] += tokens_to_trade
     affiliate.track_referral(cost)  # Track commission on buy
     return token
 
@@ -64,9 +68,10 @@ def _sell_token(token: Token, affiliate: Affiliate, tokens_to_trade: float) -> A
     tokens_available = affiliate.wallet.get(token.name, 0)
     tokens_to_sell = min(tokens_to_trade, tokens_available)
     if tokens_to_sell > 0:
-        sale_proceeds = token.sell(np.array(tokens_to_sell, dtype=np.float32)) * tokens_to_sell
-        affiliate.wallet[token.name] -= np.array(tokens_to_sell, dtype=np.float32)
-        affiliate.base_currency_balance += np.array(sale_proceeds, dtype=np.float32)
+        token_price = token.sell(tokens_to_sell)
+        sale_proceeds = token_price * tokens_to_sell
+        affiliate.wallet[token.name] -= tokens_to_sell
+        affiliate.base_currency_balance += sale_proceeds
         logging.debug(f"Affiliate {affiliate.affiliate_id} sold {tokens_to_sell:.2f} {token.name} for {sale_proceeds:.2f}")
         affiliate.track_referral(sale_proceeds)  # Track commission on sell
     else:
@@ -115,15 +120,16 @@ def affiliate_simulation_step(step: int, tokens: List[Token], affiliates: List[A
     logging.debug(f"Starting affiliate simulation step: {step}")
     for affiliate in affiliates:
         for token_name in list(affiliate.wallet.keys()):
-            if affiliate.wallet[token_name] > 0 and np.random.rand() < 0.05:  # Reduced sell frequency
-                tokens_to_sell_percentage = np.random.rand() * 0.05  # Sell up to 5%
+            if affiliate.wallet[token_name] > 0 and np.random.rand() < SELL_PROBABILITY:
+                tokens_to_sell_percentage = np.random.rand() * MAX_SELL_PERCENTAGE
                 tokens_to_sell = affiliate.wallet[token_name] * tokens_to_sell_percentage
 
                 for token in tokens:
                     if token.name == token_name:
-                        sale_proceeds = token.sell(np.array(tokens_to_sell, dtype=np.float32)) * token.price
-                        affiliate.wallet[token_name] -= np.array(tokens_to_sell, dtype=np.float32)
-                        affiliate.base_currency_balance += np.array(sale_proceeds, dtype=np.float32)
+                        token_price = token.sell(tokens_to_sell)
+                        sale_proceeds = token_price * tokens_to_sell
+                        affiliate.wallet[token_name] -= tokens_to_sell
+                        affiliate.base_currency_balance += sale_proceeds
                         logging.debug(f"Affiliate {affiliate.affiliate_id} sold {tokens_to_sell:.2f} {token.name} for {sale_proceeds:.2f} (periodic sell)")
                         affiliate.track_referral(sale_proceeds)  # Track commission on periodic sell
                         break

@@ -1,5 +1,5 @@
-from simulation import run_simulation
-from config import NUM_TOKENS
+from .simulation import run_simulation
+from .config import NUM_TOKENS
 import pandas as pd
 from typing import Dict, Any, Tuple
 
